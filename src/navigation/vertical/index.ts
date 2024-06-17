@@ -25,6 +25,11 @@ const navigation = (): VerticalNavItemsType => {
       icon: AccountCogOutline, 
       path: '/account-settings'
     },
+    {
+      title: 'FaceScape',
+      icon: AccountCogOutline, 
+      path: '/face-scape'
+    },
     // {
     //   sectionTitle: 'Pages'
     // },
