@@ -2824,7 +2824,7 @@ next-transpile-modules@^9.0.0:
     enhanced-resolve "^5.7.0"
     escalade "^3.1.1"
 
-next@>=10.2.0, next@12.0.4:
+next@^12.0.4, next@>=10.2.0:
   version "12.0.4"
   resolved "https://registry.npmjs.org/next/-/next-12.0.4.tgz"
   integrity sha512-1pvjcSZBm5OLoGmDhp4JwKwIE798WbqUNLuyU7w6a2jUkdWaxOYtkE/ROXQTi2pXHj7+6rm68AvhxROLX2NHQg==
@@ -3297,7 +3297,7 @@ react-datepicker@^4.5.0:
     react-onclickoutside "^6.12.0"
     react-popper "^2.2.5"
 
-"react-dom@^15.5.x || ^16.x || ^17.x", "react-dom@^16.9.0 || ^17", react-dom@^17.0.0, react-dom@^17.0.2, "react-dom@^17.0.2 || ^18.0.0", react-dom@>=16.3.3, react-dom@>=16.6.0, react-dom@17.0.2:
+"react-dom@^15.5.x || ^16.x || ^17.x", "react-dom@^16.9.0 || ^17", react-dom@^17.0.0, react-dom@^17.0.2, "react-dom@^17.0.2 || ^18.0.0", react-dom@>=16.3.3, react-dom@>=16.6.0:
   version "17.0.2"
   resolved "https://registry.npmjs.org/react-dom/-/react-dom-17.0.2.tgz"
   integrity sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA==
