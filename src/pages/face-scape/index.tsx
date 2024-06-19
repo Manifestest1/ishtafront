@@ -8,15 +8,16 @@ import MultipleSelectHsFilter from 'src/views/facescap/MultipleSelectHsFilter';
 import MultipleSelectAccessoriesFilter from 'src/views/facescap/MultipleSelectAccessoriesFilter';
 import MultipleSelectMoodThemeFilter from 'src/views/facescap/MultipleSelectMoodThemeFilter';
 import MultipleSelectSkinExposureFilter from 'src/views/facescap/MultipleSelectSkinExposureFilter';
+import MultipleFieldSelectFilter from 'src/views/facescap/MultipleFieldSelectFilter';
 
 import { TextField,Grid, Card, CardHeader, CardContent, IconButton, Typography, Box, Button, MenuItem, FormControl, InputLabel, Select,Avatar,LinearProgress } from '@mui/material';
 // ** MUI Imports
 import { useDropzone } from 'react-dropzone';
-import { useCallback,useState } from 'react';
+import { useCallback,useState,useEffect } from 'react';
 import SendIcon from '@mui/icons-material/Send';
 import Image from 'next/image';
 
-import {fasescapImageUpload} from 'src/context/api/apiService';
+import {fasescapImageUpload,getAllFiltersData} from 'src/context/api/apiService';
 
 // ** Types
 import { ThemeColor } from 'src/@core/layouts/types'
@@ -86,6 +87,28 @@ const Dashboard = () => {
     const [selectedValuesAccessories, setSelectedValuesAccessories] = useState([]);
     const [selectedValuesMoodTheme, setSelectedValuesMoodTheme] = useState([]);
     const [selectedValuesSkinExposure, setSelectedValuesSkinExposure] = useState([]);
+
+    const [selectedFilterOptions, setFilterOptions] = useState([]);
+
+    useEffect(() => {
+      const token = localStorage.getItem('token');  
+      if (token) 
+      {
+        getAllFiltersData()
+              .then(response => {
+                  console.log(response.data.filters,"Get All Filters");
+                  setFilterOptions(response.data.filters);
+              
+              })
+              .catch((error) => {
+                  if (error.response.status === 401) 
+                  {
+                    // Handle unauthorized access
+                  }
+              });
+      } 
+     
+  }, []);
 
     const onDrop = useCallback((acceptedFiles) => {
       console.log(quality,"Quality Check");
@@ -233,10 +256,39 @@ const Dashboard = () => {
           /> */}
 
         <CardContent>
-          <Typography variant='body2' sx={{ fontWeight: 600 }}>Select Item <b>Location</b></Typography>
-          <MultipleSelectLocationFilter options={options} label="Select Options" selectedValues={selectedValuesLocation} setSelectedValues={setSelectedValuesLocation}/>
 
-          <Typography variant='body2' sx={{ mt: 4, fontWeight: 600 }}>Select Item <b>Activity</b></Typography>
+          {/* <Typography variant='body2' sx={{ fontWeight: 600 }}>Select Item <b>Location</b></Typography>
+          <FormControl fullWidth>
+             <Select label="Status"  defaultValue="Select Category" >
+                <MenuItem value='Select Category'>Select Category</MenuItem>
+                  {selectedFilterOptions && selectedFilterOptions.map(selectfilter => (
+                    // <MenuItem key={selectfilter.id} value={selectfilter.sub_category}>
+                    //   {selectfilter.sub_category}
+                    // </MenuItem>
+                ))}
+              </Select>
+          </FormControl> */}
+
+        {selectedFilterOptions && selectedFilterOptions.map(selectfilter => (
+              <div key={selectfilter.category_id}> {/* Make sure to include a unique key for each mapped item */}
+                <Typography variant='body2' sx={{ fontWeight: 600 }}>Select Item <b>{selectfilter.category_name}</b></Typography>
+                <FormControl fullWidth>
+                  <Select label="Status" defaultValue="Select Category">
+                    <MenuItem value='Select Category'>Select Category</MenuItem>
+                    {selectfilter.sub_categories.map((subCategory, index) => (
+                      <MenuItem key={index} value={subCategory.id}>
+                        {subCategory.sub_category}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </div>
+            ))}
+          {/* <MultipleFieldSelectFilter options={selectedFilterOptions}/> */}
+          {/* <Typography variant='body2' sx={{ fontWeight: 600 }}>Select Item <b>Location</b></Typography>
+          <MultipleSelectLocationFilter options={options} label="Select Options" selectedValues={selectedValuesLocation} setSelectedValues={setSelectedValuesLocation}/> */}
+
+          {/* <Typography variant='body2' sx={{ mt: 4, fontWeight: 600 }}>Select Item <b>Activity</b></Typography>
           <MultipleSelectActivityFilter options={options1} label="Select Options" selectedValues={selectedValuesActivity} setSelectedValues={setSelectedValuesActivity}/>
 
           <Typography variant='body2' sx={{ mt: 4, fontWeight: 600 }}>Select Item <b>Outfit</b></Typography>
@@ -255,7 +307,7 @@ const Dashboard = () => {
           <MultipleSelectMoodThemeFilter options={options6} label="Select Options" selectedValues={selectedValuesMoodTheme} setSelectedValues={setSelectedValuesMoodTheme}/>
 
           <Typography variant='body2' sx={{ mt: 4, fontWeight: 600 }}>Select Item <b>Skin Exposure</b></Typography>
-          <MultipleSelectSkinExposureFilter options={options7} label="Select Options" selectedValues={selectedValuesSkinExposure} setSelectedValues={setSelectedValuesSkinExposure}/>
+          <MultipleSelectSkinExposureFilter options={options7} label="Select Options" selectedValues={selectedValuesSkinExposure} setSelectedValues={setSelectedValuesSkinExposure}/> */}
         </CardContent>
         </Card>
       </Grid>
